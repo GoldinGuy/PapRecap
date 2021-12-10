@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "openai-api": "^1.2.6",
+    "pdf-parse": "^1.1.1",
+    "pdf2json": "^2.0.0"
+  }
+}

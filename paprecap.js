@@ -1,11 +1,29 @@
 
-// READ PDF TO JSON
+
+const INPUT_URL = "./pdfs/gpt-3.pdf";
+
+var paperRecap = {
+    id: 1,
+    url: INPUT_URL,
+}
+
+
+
+// READ TEXT FROM PDF
 const fs = require("fs");
 const pdf = require('pdf-parse');
  
-let dataBuffer = fs.readFileSync('./pdfs/gpt-3.pdf');
+let dataBuffer = fs.readFileSync(INPUT_URL);
  
 pdf(dataBuffer).then((data) => {
+
+    paperRecap["pdf"] = {
+			pageCount: data.numpages,
+			creationDate: data.info.CreationDate,
+			modDate: data.info.modDate,
+            formatVersion: data.info.PDFFormatVersion,
+            version: data.version,
+	};
  
     // number of pages
     console.log(data.numpages);
@@ -23,39 +41,6 @@ pdf(dataBuffer).then((data) => {
     fs.writeFileSync("./output/test.txt", data.text);
         
 });
-
-
-
-
-
-
-
-// PDFParser = require("pdf2json");
-// const pdfParser = new PDFParser();
-
-// var codex = [];
-
-// pdfParser.on("readable", meta => console.log("PDF Metadata", meta) );
-// pdfParser.on("data", page => {
-//     if (page) {
-//         for (let text of page.Texts) {
-//             codex = codex.concat(text.R[0].T);
-//         }
-//     } else {
-// 			fs.writeFileSync("./output/test.json", JSON.stringify(codex));
-// 		}
-//     console.log(page ? "One page paged" : "All pages parsed", codex)
-
-// });
-// pdfParser.on("error", err => console.error("Parser Error", err));
-
-// // pdfParser.on("pdfParser_dataError", (errData) => console.error(errData.parserError));
-// // pdfParser.on("pdfParser_dataReady", (pdfData) => {
-// //     fs.writeFile("./output/test.json", JSON.stringify(pdfData));
-// // });
-
-// pdfParser.loadPDF("./pdfs/gpt-3.pdf");
-
 
 
 // RUN THROUGH GPT

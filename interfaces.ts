@@ -1,13 +1,13 @@
 export interface PaperRecap {
-    id: number;
-    title: string;
-    date: string;
-    authors: string[];
-    abstract: string;
-    keywords: string[];
-    url: string;
-    summary: string;
-    pdf: PDFMetaData;
+	id: number;
+	title: string;
+	date: PDFDate;
+	authors: string[];
+	abstract: string;
+	keywords: string[];
+	url: string;
+	summary: string;
+	pdf: PDFMetaData;
 }
 
 export interface PDFMetaData {
@@ -38,4 +38,11 @@ export interface PDFData {
 	metadata: any;
 	text: string;
 	version: string;
+}
+
+export interface PDFDate {
+    startIndex?: number;
+    endIndex?: number;
+	string: string;
+	date: Date;
 }

@@ -1,6 +1,8 @@
 import fs from "fs"
 import pdf from "pdf-parse"
-import { PaperRecap, PDFData } from "./interfaces";
+import datefinder from "datefinder"
+import keyword_extractor from "keyword-extractor";
+import { PaperRecap, PDFData, PDFDate } from "./interfaces";
 
 const INPUT_URL = "./pdfs/gpt-3.pdf";
 
@@ -13,25 +15,40 @@ const parsePDF = async (url: string): Promise<PDFData> => {
 };
 
 parsePDF(INPUT_URL).then((data: PDFData) => {
+    let date: PDFDate = datefinder(data.text)[0];
     var paperRecap: PaperRecap = {
-        id: 1,
-        url: INPUT_URL,
-        title: data.text.trim().split("\n")[0],
-        date: "",
-        authors: [],
-        abstract: "",
-        keywords: [],
-        summary: "",
-        pdf: {
-                pageCount: data.numpages,
-                creationDate: data.info.CreationDate,
-                modDate: data.info.ModDate,
-                formatVersion: data.info.PDFFormatVersion,
-                version: data.version,
-        }
-    };
-	console.log(paperRecap);
+			id: 1,
+			url: INPUT_URL,
+			title: data.text.trim().split("\n")[0],
+			date: {
+				string: date.string,
+				date: date.date
+			},
+			authors: [],
+			abstract: "",
+			keywords: [],
+			summary: "",
+			pdf: {
+				pageCount: data.numpages,
+				creationDate: data.info.CreationDate,
+				modDate: data.info.ModDate,
+				formatVersion: data.info.PDFFormatVersion,
+				version: data.version,
+			},
+		};
+    console.log(paperRecap);
+    findKeywords(data.text);
 });
+
+const findKeywords = (text: string): string[] => {
+    var wordCounts = {};
+    var words = text.split(/\b/);
+    for (var i = 0; i < words.length; i++){
+        wordCounts["_" + words[i].toLowerCase()] = (wordCounts["_" + words[i].toLowerCase()] || 0) + 1;
+    }
+    console.log(wordCounts);
+    return [];
+}
 
 // const getGPTResponse = async (url: string): Promise<PaperRecap> => {
 
@@ -66,10 +83,10 @@ parsePDF(INPUT_URL).then((data: PDFData) => {
 // });
 
 // RUN THROUGH GPT
-const OpenAI = require("openai-api");
+// const OpenAI = require("openai-api");
 // Load your key from an environment variable or secret management service
 // (do not include your key directly in your code)
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+// const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // const openai = new OpenAI(OPENAI_API_KEY);
 

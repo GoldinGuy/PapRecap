@@ -1,10 +1,13 @@
 {
   "dependencies": {
+    "datefinder": "^1.0.4",
+    "keyword-extractor": "^0.0.20",
     "openai-api": "^1.2.6",
     "pdf-parse": "^1.1.1",
     "pdf2json": "^2.0.0"
   },
   "devDependencies": {
+    "@types/node": "^16.11.12",
     "@types/pdf-parse": "^1.1.1"
   }
 }

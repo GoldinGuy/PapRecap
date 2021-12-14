@@ -18,8 +18,9 @@ const parsePDF = async (url) => {
 	return data;
 };
 
-parsePDF(INPUT_URL).then((data) => {
-	let date = datefinder(data.text)[0];
+parsePDF(INPUT_URL).then(async (data) => {
+    let date = datefinder(data.text)[0];
+    let terms = await findKeyTerms(data.text);
 	var paperRecap = {
 		id: 1,
 		url: INPUT_URL,
@@ -30,7 +31,7 @@ parsePDF(INPUT_URL).then((data) => {
 		},
 		authors: [],
 		abstract: "",
-		keywords: [],
+		keyterms: terms,
 		summary: "",
 		pdf: {
 			pageCount: data.numpages,
@@ -41,35 +42,27 @@ parsePDF(INPUT_URL).then((data) => {
 		},
 	};
 	console.log(paperRecap);
-	findKeywords(data.text);
+	
 });
 
-const findKeywords = (text) => {
-	retext()
+const findKeyTerms = async (text) => {
+	let terms = [];
+	await retext()
 		.use(retextPos)
-		.use(
-			keywords
-			// , { maximum: this.state.keywordNum }
-		)
+		.use(keywords, { maximum: 10 })
 		.process(vfile(text))
 		.then((file) => {
 			if (file) {
-				console.log("Keywords:");
-				// @ts-ignore
-				file.data.keywords.forEach((keyword) => {
-                    console.log(toString(keyword.matches[0].node)
-                    );
-				});
-
-				console.log();
-				console.log("Key-phrases:");
-				// @ts-ignore
-
+				// file.data.keywords.forEach((keyword) => {
+				//     terms.push(toString(keyword.matches[0].node));
+				//     console.log(toString(keyword.matches[0].node));
+				// });
 				file.data.keyphrases.forEach((phrase) => {
-					console.log(phrase.matches[0].nodes.map(toString).join(""));
+					terms.push(phrase.matches[0].nodes.map(toString).join(""));
+					// console.log(phrase.matches[0].nodes.map(toString).join(""));
 				});
 			}
-		});
-	return [];
+        });
+    return terms;
 };
 

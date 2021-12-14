@@ -1,20 +1,24 @@
 {
-  "dependencies": {
-    "datefinder": "^1.0.4",
-    "keyword-extractor": "^0.0.20",
-    "openai-api": "^1.2.6",
-    "pdf-parse": "^1.1.1",
-    "pdf2json": "^2.0.0",
-    "retext": "^8.1.0",
-    "retext-english": "^4.1.0",
-    "retext-keywords": "^7.1.0",
-    "retext-pos": "^4.1.0",
-    "retext-stringify": "^3.1.0",
-    "unified": "^10.1.1",
-    "vfile": "^5.2.0"
-  },
-  "devDependencies": {
-    "@types/node": "^16.11.12",
-    "@types/pdf-parse": "^1.1.1"
-  }
+	"dependencies": {
+		"@types/vfile": "^4.0.0",
+		"datefinder": "^1.0.4",
+		"keyword-extractor": "^0.0.20",
+		"openai-api": "^1.2.6",
+		"pdf-parse": "^1.1.1",
+		"pdf2json": "^2.0.0",
+		"nlcst-to-string": "2.0.2",
+		"rake-js": "^0.1.1",
+		"retext": "6.0.1",
+		"retext-english": "3.0.2",
+		"retext-keywords": "4.0.2",
+		"retext-pos": "^3.0.0",
+		"retext-stringify": "^3.1.0",
+		"to-vfile": "^7.2.2",
+		"unified": "^10.1.1",
+		"vfile": "4.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^16.11.12",
+		"@types/pdf-parse": "^1.1.1"
+	}
 }

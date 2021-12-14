@@ -1,16 +1,11 @@
 import fs from "fs"
 import pdf from "pdf-parse"
 import datefinder from "datefinder"
-// import keyword_extractor from "keyword-extractor";
 import { retext } from "retext";
 import retextPos from "retext-pos";
-// import { VFile } from "vfile"
-import { VFile } from "vfile";
-import unified from "unified";
 import keywords from "retext-keywords";
-import stringify from "retext-stringify";
-import englishParser from "retext-english";
-
+import { VFile } from "vfile";
+const vfile = require("vfile");
 import { PaperRecap, PDFData, PDFDate } from "./interfaces";
 
 const INPUT_URL = "./pdfs/gpt-3.pdf";
@@ -50,66 +45,32 @@ parsePDF(INPUT_URL).then((data: PDFData) => {
 });
 
 const findKeywords = (text: string): string[] => {
-    // const extraction_result = keyword_extractor.extract(text, {
-	// 		language: "english",
-	// 		remove_digits: true,
-	// 		return_chained_words: true,
-	// 		return_changed_case: true,
-	// 		remove_duplicates: true,
-	// 		return_max_ngrams: 50
-	// 	});
-    // console.log(extraction_result);
-    // return extraction_result;
-    retext().use(retextPos).use(keywords).process(new VFile(text)).then((file) => {
-            if (file ){
-                console.log("Keywords:");
-                // @ts-ignore
+	retext()
+		.use(retextPos)
+		.use(
+			keywords
+			// , { maximum: this.state.keywordNum }
+		)
+		.process(vfile(text))
+		.then((file) => {
+			if (file) {
+				console.log("Keywords:");
+				// @ts-ignore
 				file.data.keywords.forEach((keyword) => {
 					console.log(keyword.matches[0].node.toString());
 				});
 
 				console.log();
-                console.log("Key-phrases:");
-                // @ts-ignore
-                
+				console.log("Key-phrases:");
+				// @ts-ignore
+
 				file.data.keyphrases.forEach((phrase) => {
-					console.log(phrase.matches[0].nodes.map((d) => d.toString()).join(""));
-				}); 
-                }
-			
-			});
-    // const retext = unified().use(englishParser).use(stringify).freeze();
-
-//      retext()
-// 				.use(keywords, { maximum: this.state.keywordNum })
-// 				.process(vfile(this.state.inputText), (err, file) => {
-// 					if (err) {
-// 						this.setState({
-// 							error: "" + err,
-// 						});
-// 						return;
-// 					}
-
-// 					const keywords = file.data.keywords.map((k) =>
-// 						toString(k.matches[0].node)
-// 					);
-
-// 					const keyphrases = file.data.keyphrases.map((k) =>
-// 						k.matches[0].nodes.map(toString).join("")
-// 					);
-
-// 					this.setState({
-// 						result: `Keywords: 
-
-// ${keywords.join("\n")}
-          
-// Key-phrases:
-
-// ${keyphrases.join("\n")}
-//           `,
-// 					});
-// 				});
-
+					console.log(
+						phrase.matches[0].nodes.map((d) => d.toString()).join("")
+					);
+				});
+			}
+		});
     return [];
 }
 

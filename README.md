@@ -22,7 +22,7 @@ You will need to add your OPENAI GPT-3 key either to a .env file or replace the 
 
 Sample output for the GPT-3 Paper:
 
-```json
+```js
 {
   id: 1,
   url: './pdfs/gpt-3.pdf',
